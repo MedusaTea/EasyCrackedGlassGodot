@@ -1,0 +1,77 @@
+[gd_scene load_steps=15 format=3 uid="uid://c7pdmvht2wuc2"]
+
+[ext_resource type="Script" uid="uid://c7tp6xlcf01va" path="res://camera_3d.gd" id="1_b8qbv"]
+[ext_resource type="Material" uid="uid://c6gupsgu0uuhb" path="res://cracked-glass-rough.tres" id="1_fvmfx"]
+[ext_resource type="Material" uid="uid://dobhujckopb7m" path="res://cracked-glass-no-rough.tres" id="2_ykn3o"]
+[ext_resource type="Material" uid="uid://b5ilgqvmx6v8u" path="res://cracked-glass-mat.tres" id="4_ngwly"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vclmm"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_bottom_color = Color(0.2, 0.247059, 0.219608, 1)
+
+[sub_resource type="Sky" id="Sky_fvmfx"]
+sky_material = SubResource("ProceduralSkyMaterial_vclmm")
+
+[sub_resource type="Environment" id="Environment_ykn3o"]
+background_mode = 2
+sky = SubResource("Sky_fvmfx")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fvmfx"]
+albedo_color = Color(1, 0.411765, 0.164706, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ykn3o"]
+material = SubResource("StandardMaterial3D_fvmfx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykn3o"]
+albedo_color = Color(0.735544, 0.475443, 0.687432, 1)
+metallic_specular = 0.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_b8qbv"]
+material = SubResource("StandardMaterial3D_ykn3o")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ykn3o"]
+material = ExtResource("1_fvmfx")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fvmfx"]
+material = ExtResource("2_ykn3o")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_c7tfy"]
+material = ExtResource("4_ngwly")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="SceneAesthetic" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SceneAesthetic"]
+environment = SubResource("Environment_ykn3o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SceneAesthetic"]
+transform = Transform3D(0.913558, -0.252695, 0.31868, 0.329933, 0.918631, -0.217395, -0.237815, 0.303747, 0.922596, 3.3756, 1.93344, 0)
+
+[node name="AnObject" type="MeshInstance3D" parent="SceneAesthetic"]
+transform = Transform3D(3.15115, 0, 0, 0, 2.95203, 0, 0, 0, 1, -1.94965, 0.45107, -3.03373)
+mesh = SubResource("CylinderMesh_ykn3o")
+skeleton = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="SceneAesthetic"]
+transform = Transform3D(0.998484, -0.0153018, 0.052874, 0.00685596, 0.987675, 0.156366, -0.054615, -0.155766, 0.986283, -0.731732, 1.91828, 3.64959)
+script = ExtResource("1_b8qbv")
+
+[node name="AnObject2" type="MeshInstance3D" parent="SceneAesthetic"]
+transform = Transform3D(3.15115, 0, 0, 0, 2.95203, 0, 0, 0, 1, 1.30264, 4.36907, -3.03373)
+mesh = SubResource("CylinderMesh_b8qbv")
+skeleton = NodePath("../..")
+
+[node name="FullRoughness" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.1961, 1, 0)
+mesh = SubResource("PlaneMesh_ykn3o")
+
+[node name="NoRoughness" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1.8938, 1, 0)
+mesh = SubResource("PlaneMesh_fvmfx")
+
+[node name="CrackedGlassPane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.813619, 3.07087, 0.220848)
+mesh = SubResource("PlaneMesh_c7tfy")
